@@ -60,9 +60,12 @@ def main():
                     log("Baseline set.")
                 elif page_hash != last_hash:
                     size_diff = page_len - last_len
-                    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    log("PAGE CHANGED! Size diff: " + str(size_diff))
-                    send_telegram("AfterQuery Rewrite - Page Changed!\nSize diff: " + str(size_diff) + " chars\nTime: " + now + "\nLink: " + PROJECT_URL + "\nCheck now - task may be available!")
+                    if size_diff == 0:
+                        log("Hash changed but size same - ignored (false alarm)")
+                    else:
+                        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        log("PAGE CHANGED! Size diff: " + str(size_diff))
+                        send_telegram("AfterQuery Rewrite - Page Changed!\nSize diff: " + str(size_diff) + " chars\nTime: " + now + "\nLink: " + PROJECT_URL + "\nCheck now - task may be available!")
                 else:
                     log("No change.")
                 last_hash = page_hash
